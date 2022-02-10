@@ -4,17 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * @author -> Ashwath Naidu <ashwath.bly@gmail.com>
- * openjdk version "11.0.12" 2021-07-20
- * OpenJDK Runtime Environment 18.9 (build 11.0.12+7)
- * OpenJDK 64-Bit Server VM 18.9 (build 11.0.12+7, mixed mode)
+ * @version -> :: Spring Boot :: (v2.6.3)
  */
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeePayRollDTO {
+    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z ]{2,}$" , message = "Invalid person full name")
     private String name;
+   /* private String profilePic;
+    private String gender;
+    private List<String> department;
+    private LocalDate startDate;*/
     private long salary;
+    /*private String note;*/
 }

@@ -9,13 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * @author -> Ashwath Naidu <ashwath.bly@gmail.com>
- * openjdk version "11.0.12" 2021-07-20
- * OpenJDK Runtime Environment 18.9 (build 11.0.12+7)
- * OpenJDK 64-Bit Server VM 18.9 (build 11.0.12+7, mixed mode)
+ * @version -> :: Spring Boot :: (v2.6.3)
  */
 
 @RestController
@@ -30,10 +29,10 @@ public class EmployeePayRollController {
      */
     @RequestMapping(value = {"","/","/get"})
     public ResponseEntity<ResponseDTO> getEmployeePaYRollData(){
-        List<EmployeePayRollData> employeePayRollData =null;
-        employeePayRollData = iEmployeePayRollService.getEmployeePayRollData();
-        ResponseDTO responseDTO = new ResponseDTO("Getting call successfully",employeePayRollData);
-        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+        List<EmployeePayRollData> employeePayRollDataList =null;
+        employeePayRollDataList = iEmployeePayRollService.getEmployeePayRollData();
+        ResponseDTO getting_call_successfully = new ResponseDTO("Getting call successfully", employeePayRollDataList);
+        return new ResponseEntity<ResponseDTO>(getting_call_successfully, HttpStatus.OK);
     }
 
     /**
@@ -41,7 +40,7 @@ public class EmployeePayRollController {
      * @return -> It returns the employee data that matches to given employee ID
      */
     @GetMapping(value = {"/get/{emailID}"})
-    public ResponseEntity<ResponseDTO> getEmployeePaYRollData(@PathVariable int emailID){
+    public ResponseEntity<ResponseDTO> getEmployeePaYRollDataByID(@PathVariable long emailID){
         EmployeePayRollData employeePayRollData =null;
         employeePayRollData = iEmployeePayRollService.getEmployeeOayRollDataById(emailID);
         ResponseDTO responseDTO = new ResponseDTO("Get call for ID successfully",employeePayRollData);
@@ -49,25 +48,25 @@ public class EmployeePayRollController {
     }
 
     /**
-     * @param employeePayRollDTO
+     * @param name.
      * @return -> It returns creates new employee data into the database
      */
     @PostMapping(value = {"/create"})
-    public ResponseEntity<ResponseDTO> createEmployeePaYRollData(@RequestParam EmployeePayRollDTO employeePayRollDTO){
+    public ResponseEntity<ResponseDTO> createEmployeePaYRollData(@RequestParam String name,@RequestParam long salary){
         EmployeePayRollData employeePayRollData =null;
-        employeePayRollData = iEmployeePayRollService.createEmployeePayRollData(employeePayRollDTO);
+        employeePayRollData = iEmployeePayRollService.createEmployeePayRollData(new EmployeePayRollDTO(name,salary));
         ResponseDTO responseDTO = new ResponseDTO("created employee payroll data successfully",employeePayRollData);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     /**
-     * @param employeePayRollDTO
+     * @param Id,name,salary
      * @return -> It returns the updated employee data
      */
     @PutMapping(value = {"/update"})
-    public ResponseEntity<ResponseDTO> updateEmployeePaYRollData(@RequestParam EmployeePayRollDTO employeePayRollDTO){
+    public ResponseEntity<ResponseDTO> updateEmployeePaYRollData(@RequestParam long Id,@RequestParam String name,@RequestParam long salary){
         EmployeePayRollData employeePayRollData =null;
-        employeePayRollData = iEmployeePayRollService.updateEmployeePayRollData(employeePayRollDTO);
+        employeePayRollData = iEmployeePayRollService.updateEmployeePayRollData(Id,name,salary);
         ResponseDTO responseDTO = new ResponseDTO("update employee payroll data successfully",employeePayRollData);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -77,7 +76,7 @@ public class EmployeePayRollController {
      * @return -> It returns the deleted employee ID number
      */
     @DeleteMapping(value = {"/delete/{employId}"})
-    public ResponseEntity<ResponseDTO> deleteEmployeePaYRollData(@PathVariable int employId){
+    public ResponseEntity<ResponseDTO> deleteEmployeePaYRollData(@PathVariable Long employId){
         iEmployeePayRollService.deleteEmployeePayRollData(employId);
         ResponseDTO responseDTO = new ResponseDTO("update employee payroll data successfully", "Deleted ID is"+employId);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);

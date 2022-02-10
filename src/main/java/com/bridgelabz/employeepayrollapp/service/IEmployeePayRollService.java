@@ -2,19 +2,21 @@ package com.bridgelabz.employeepayrollapp.service;
 
 import com.bridgelabz.employeepayrollapp.dto.EmployeePayRollDTO;
 import com.bridgelabz.employeepayrollapp.entity.EmployeePayRollData;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Stack;
+
 /**
  * @author -> Ashwath Naidu <ashwath.bly@gmail.com>
- * openjdk version "11.0.12" 2021-07-20
- * OpenJDK Runtime Environment 18.9 (build 11.0.12+7)
- * OpenJDK 64-Bit Server VM 18.9 (build 11.0.12+7, mixed mode)
+ * @version -> :: Spring Boot :: (v2.6.3)
  */
 
 public interface IEmployeePayRollService {
     List<EmployeePayRollData> getEmployeePayRollData();
-    EmployeePayRollData getEmployeeOayRollDataById(int employeeId);
+    EmployeePayRollData getEmployeeOayRollDataById(Long employeeId);
     EmployeePayRollData createEmployeePayRollData(EmployeePayRollDTO employeePayRollDTO);
-    EmployeePayRollData updateEmployeePayRollData(EmployeePayRollDTO employeePayRollDTO);
-    void deleteEmployeePayRollData(int employeeId);
+    EmployeePayRollData updateEmployeePayRollData( long Id,String name,long salary);
+    String deleteEmployeePayRollData(Long employeeId);
 }
