@@ -1,12 +1,8 @@
 package com.bridgelabz.employeepayrollapp.service;
 
-import com.bridgelabz.employeepayrollapp.dto.EmployeePayRollDTO;
 import com.bridgelabz.employeepayrollapp.entity.EmployeePayRollData;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @author -> Ashwath Naidu <ashwath.bly@gmail.com>
@@ -16,7 +12,10 @@ import java.util.Stack;
 public interface IEmployeePayRollService {
     List<EmployeePayRollData> getEmployeePayRollData();
     EmployeePayRollData getEmployeeOayRollDataById(Long employeeId);
-    EmployeePayRollData createEmployeePayRollData(EmployeePayRollDTO employeePayRollDTO);
-    EmployeePayRollData updateEmployeePayRollData( long Id,String name,long salary);
+    EmployeePayRollData updateEmployeePayRollData( long emplId,String name, String profilePic, String gender,  List<String> departments, String startDate, long salary, String note);
     String deleteEmployeePayRollData(Long employeeId);
+    EmployeePayRollData createEmployeePayRollData(String name, String profilePic, String gender,  List<String> departments, String startDate, long salary, String note);
+    List<EmployeePayRollData> findEmployeePayRollDataByDepartment(String department);
+    List findEmployeePayRollDataCountByGender();
+    List findEmployeePayRollDataSumOfSalaryBYGender();
 }

@@ -1,56 +1,60 @@
 package com.bridgelabz.employeepayrollapp.entity;
 
 import com.bridgelabz.employeepayrollapp.dto.EmployeePayRollDTO;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.util.List;
 
 /**
  * @author -> Ashwath Naidu <ashwath.bly@gmail.com>
- * openjdk version "11.0.12" 2021-07-20
- * OpenJDK Runtime Environment 18.9 (build 11.0.12+7)
- * OpenJDK 64-Bit Server VM 18.9 (build 11.0.12+7, mixed mode)
+ * @version -> :: Spring Boot :: (v2.6.3)
+ *
+ * Section 2 -> UC1: Introducing DTO and Model to Employee Payroll App
+ *
  */
 @Entity
-@Table(name = "EmployeePayRollDataNew")
+@Table(name = "EmployeePayRollDataList")
 @Data
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class EmployeePayRollData {
     @Id
     private long employeeId;
 
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z ]{2,}$" , message = "Invalid person full name")
     private String name;
-    /*private String profilePic;
+    @NotBlank(message = "Profile pic can not be null")
+    private String profilePic;
+    @Pattern(regexp = "male|female" , message = "Invalid gender input")
     private String gender;
-    private List<String> department;
-    private LocalDate startDate;*/
-    private long salary;
-    /*private String note;*/
 
-    /**
-     * @purpose -> parameterized constructor
-     * @param employeeId
-     * @param employeePayRollDTO
-     */
+    @ElementCollection
+    @CollectionTable(name = "EmployeePayRoll_Department",joinColumns = @JoinColumn(name = "id"))
+    private List<String> department;
+    @JsonFormat(pattern = "dd MMM yyyy")
+    @NotNull (message = "start data should not be empty")
+    private String startDate;
+    @Min(value = 500,message = "Min salary should start with 500")
+    private long salary;
+    @NotBlank(message = "Note cant be blank or empty")
+    private String note;
+
     public EmployeePayRollData(long employeeId, EmployeePayRollDTO employeePayRollDTO) {
         this.employeeId = employeeId;
         this.name=employeePayRollDTO.getName();
-       /* this.profilePic=employeePayRollDTO.getProfilePic();
+        this.profilePic=employeePayRollDTO.getProfilePic();
         this.gender=employeePayRollDTO.getGender();
-        this.department=employeePayRollDTO.getDepartment();
-        this.startDate=employeePayRollDTO.getStartDate();*/
+        this.department=employeePayRollDTO.getDepartments();
+        this.startDate=employeePayRollDTO.getStartDate();
         this.salary=employeePayRollDTO.getSalary();
-      /*  this.note=employeePayRollDTO.getNote();*/
+        this.note=employeePayRollDTO.getNote();
     }
 }
